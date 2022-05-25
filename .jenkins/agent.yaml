@@ -1,0 +1,49 @@
+spec:
+  serviceAccountName: jenkins
+  securityContext:
+    fsGroup: 0
+    runAsUser: 0
+  containers:
+    - args:
+        - 'cat'
+      command:
+        - '/bin/sh'
+        - '-c'
+      image: 'harbor.k8s.pitchbookdata.com/adoptopenjdk/openjdk11:jdk-11.0.9_11.1-alpine-slim'
+      name: 'jdk'
+      tty: true
+    - args:
+      - 'cat'
+      command:
+        - '/bin/sh'
+        - '-c'
+      image: 'harbor.k8s.pitchbookdata.com/devops/kubernetes-soft:latest'
+      name: 'kubernetes-soft'
+      tty: true
+    - args:
+        - 'cat'
+      command:
+        - '/busybox/sh'
+        - '-c'
+      image: 'gcr.io/kaniko-project/executor:debug'
+      name: 'kaniko'
+      tty: true
+    - name: "rootless-docker"
+      args:
+        - "--registry-mirror"
+        - "https://docker-mirror.k8s.pitchbookdata.com"
+      env:
+        - name: "DOCKER_TLS_CERTDIR"
+          value: ""
+      image: "docker:20.10.7-dind-rootless"
+      imagePullPolicy: "IfNotPresent"
+      resources:
+        limits:
+          memory: "12Gi"
+          cpu: "3.0"
+        requests:
+          memory: "12Gi"
+          cpu: "2.0"
+      securityContext:
+        privileged: true
+        runAsUser: 1000

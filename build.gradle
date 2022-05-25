@@ -1,0 +1,40 @@
+ext.libVersions = [
+    testContainers: '1.16.2',
+
+    springBoot : "${spring_boot_version}",
+    springCloud: '2021.0.0'
+]
+
+ext.libs = [
+    testContainers : "org.testcontainers:testcontainers:${libVersions.testContainers}",
+    testContainersJupiter : "org.testcontainers:junit-jupiter:${libVersions.testContainers}",
+    unitTest: ["org.junit.jupiter:junit-jupiter-api",
+               "org.junit.jupiter:junit-jupiter-params",
+               "org.junit.jupiter:junit-jupiter-engine",
+               "org.assertj:assertj-core",
+               "org.mockito:mockito-core",
+               "org.mockito:mockito-junit-jupiter"]
+]
+
+subprojects {
+    apply plugin: 'java'
+
+    group = 'com.englishwordshelper'
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    dependencies {
+        implementation platform("org.springframework.boot:spring-boot-dependencies:${libVersions.springBoot}")
+        implementation platform("org.springframework.cloud:spring-cloud-dependencies:${libVersions.springCloud}")
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+wrapper {
+    gradleVersion = "7.4.2"
+    distributionType = Wrapper.DistributionType.ALL
+}
