@@ -1,20 +1,24 @@
 spring:
-  application:
-    name: english-words-helper
+    application:
+        name: english-words-helper
+    datasource:
+        username: postgres
+        password: 123
+        url: jdbc:postgresql://localhost:5432/english-words-helper
 
 management:
-  server:
-    port: 9000
-  endpoints:
-    web:
-      exposure:
-        include: health,loggers,prometheus,threaddump
-  endpoint:
+    server:
+        port: 9000
+    endpoints:
+        web:
+            exposure:
+                include: health,loggers,prometheus,threaddump
+    endpoint:
+        health:
+            probes:
+                enabled: true
     health:
-      probes:
-        enabled: true
-  health:
-    readinessState:
-      enabled: true
-    livenessState:
-      enabled: true
+        readinessState:
+            enabled: true
+        livenessState:
+            enabled: true
