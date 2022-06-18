@@ -45,8 +45,8 @@ public class UserRepository implements DeleteUserPort, GetUsersPort, SaveUserPor
     public void saveUser(SaveUserCommand command) {
         var sql = "INSERT INTO users (first_name, last_name, email) VALUES(:firstName, :lastName, :email)";
         var parameters = Map.ofEntries(
-            Map.entry("first_name", command.firstName()),
-            Map.entry("last_name", command.lastName()),
+            Map.entry("firstName", command.firstName()),
+            Map.entry("lastName", command.lastName()),
             Map.entry("email", command.email())
         );
         namedParameterJdbcTemplate.update(sql, parameters);
@@ -54,10 +54,10 @@ public class UserRepository implements DeleteUserPort, GetUsersPort, SaveUserPor
 
     @Override
     public void updateUser(UpdateUserCommand command) {
-        var sql = "UPDATE users SET first_name = :firstName, last_name = :last_name, email = :email WHERE id = :id";
+        var sql = "UPDATE users SET first_name = :firstName, last_name = :lastName, email = :email WHERE id = :id";
         var parameters = Map.ofEntries(
-            Map.entry("first_name", command.firstName()),
-            Map.entry("last_name", command.lastName()),
+            Map.entry("firstName", command.firstName()),
+            Map.entry("lastName", command.lastName()),
             Map.entry("email", command.email()),
             Map.entry("id", command.userId())
         );
